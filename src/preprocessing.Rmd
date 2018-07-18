@@ -1,0 +1,52 @@
+---
+title: "Data Preprocessing for Predictive Maintenance Dataset"
+author: "Avinash"
+date: '2018-07-17'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Importing dependencies
+library(tidyverse)
+library(purrr)
+```
+
+```{r}
+clf_data <- read_csv("../data/predictive_maintenance_dataset.csv")
+```
+
+```{r}
+
+process_data <- function(unit_id) {
+  #Set the target variable to 40 days ahead
+  #Removes the data after that
+  ret_data <- clf_data %>%
+    filter(unit_number == unit_id) %>%
+    arrange(time_stamp) %>%
+    mutate(status = lead(status,40)) %>%
+    filter(!is.na(status))
+  
+  return(ret_data)
+  
+}
+
+#Update the target variable for all the generator units!
+updated_data <- select(clf_data, unit_number)[[1]] %>% unique() %>% map_dfr(.f = process_data)
+
+#Checking if the number of rows have reduced
+nrow(clf_data)
+nrow(updated_data)
+
+#Checking if the output is in the required format
+updated_data %>% filter(unit_number == 540) %>% arrange(time_stamp)
+  
+clf_data %>% filter(unit_number == 540) %>% arrange(time_stamp) %>% mutate(new_status = lead(status,40)) %>% filter(!is.na(new_status))
+
+
+write_csv(updated_data, "../results/processed_data/predictive_maintenance_dataset_40days.csv")
+  
+```
