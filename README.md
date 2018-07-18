@@ -10,7 +10,9 @@
 8. Perform feature selection using the optimized model and sklearn pipeline.
 
 The code for task 1 can be found in [task1.ipynb](src/task1.ipynb)
+
 The code for task 1 (attempt to predict 40 minutes ahead)can be found in [task1-40days.ipynb](src/task1-40days.ipynb)
+
 The code to process data for predicting 40 minutes ahead can be found in [preprocessing.Rmd](src/preprocessing.Rmd)
 
 
@@ -20,9 +22,9 @@ The code to process data for predicting 40 minutes ahead can be found in [prepro
 1. I assumed that the value of y given is the traffic 6 hours ahead.
 2. Encoded the categorical variables as sklearn cannot handle them. (I have assumed that the differences between all the levels are the same.)
 3. Imputed the categorical and continuous variable as sklearn cannot handle missing values.
-- Since there is a significant correlation between some of the features, I attempted to predict the categorical variables `label` as it would be more accurate than replacing with the most frequent value.
-- Also, I tried to remove all the missing values. This gave better results than imputing the missing values.
-4. Develop and compare various sklearn regression models and identify the best model using the validation set.  The best model selected for task2 is Random Forest Regressor.
+    - Since there is a significant correlation between some of the features, I attempted to predict the categorical variables `label` as it would be more accurate than replacing with the most frequent value.
+    - Also, I tried to remove all the missing values. This gave better results than imputing the missing values.
+4. Develop and compare various sklearn regression models and identify the best model using the validation set.  The best model selected for task2 is GradientBoostingRegressor.
 5. Perform hyperparameter optimization using GridSearchCV
 6. Perform feature selection using the sklearn `pipeline` and the best performing model
 7. Save the model in pickle format.
