@@ -9,9 +9,9 @@
 7. Perform hyperparameter optimization to tune the best performing model using `RandomizeSearchCV`. The best model selected for task1 is Random Forest Classifier.
 8. Perform feature selection using the optimized model and sklearn pipeline.
 
-The code for task 1 can be found in [task1.ipynb](src/task1.ipynb)
+The code for task 1 can be found in [task1.ipynb](src/Task1.ipynb)
 
-The code for task 1 (attempt to predict 40 minutes ahead)can be found in [task1-40days.ipynb](src/task1-40days.ipynb)
+The code for task 1 (attempt to predict 40 minutes ahead)can be found in [task1-40days.ipynb](src/Task1-40days.ipynb)
 
 The code to process data for predicting 40 minutes ahead can be found in [preprocessing.Rmd](src/preprocessing.Rmd)
 
@@ -29,4 +29,4 @@ The code to process data for predicting 40 minutes ahead can be found in [prepro
 6. Perform feature selection using the sklearn `pipeline` and the best performing model
 7. Save the model in pickle format.
 
-The code for task 2 can be found in [task2.ipynb](src/task2.ipynb)
+The code for task 2 can be found in [task2.ipynb](src/Task2.ipynb)
