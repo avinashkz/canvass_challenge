@@ -13,40 +13,123 @@ knitr::opts_chunk$set(echo = TRUE)
 #Importing dependencies
 library(tidyverse)
 library(purrr)
+library(lubridate)
 ```
+
+# Preprocessing for task 1
 
 ```{r}
 clf_data <- read_csv("../data/predictive_maintenance_dataset.csv")
 ```
 
-```{r}
 
+```{r}
+clf_data %>% filter(unit_number == 540) %>%
+  arrange(time_stamp) %>%
+  mutate(new_status = lead(status,40)) %>% 
+  mutate(new_status = ifelse(is.na(new_status), 1, new_status)) %>% 
+  select(-c(status)) %>%
+  rename(status = new_status)
+```
+
+
+```{r}
 process_data <- function(unit_id) {
   #Set the target variable to 40 days ahead
   #Removes the data after that
   ret_data <- clf_data %>%
     filter(unit_number == unit_id) %>%
     arrange(time_stamp) %>%
-    mutate(status = lead(status,40)) %>%
-    filter(!is.na(status))
+    mutate(new_status = lead(status,40)) %>%
+    mutate(new_status = ifelse(is.na(new_status), 1, new_status)) %>% 
+    select(-c(status)) %>%
+    rename(status = new_status)
   
   return(ret_data)
-  
 }
+```
 
+```{r}
 #Update the target variable for all the generator units!
 updated_data <- select(clf_data, unit_number)[[1]] %>% unique() %>% map_dfr(.f = process_data)
+```
 
+```{r}
 #Checking if the number of rows have reduced
 nrow(clf_data)
 nrow(updated_data)
+```
 
+
+```{r}
+#Checking if there are 41 records 
+updated_data %>% group_by(unit_number, status) %>% summarise(count = n())
+```
+
+
+```{r}
 #Checking if the output is in the required format
-updated_data %>% filter(unit_number == 540) %>% arrange(time_stamp)
+updated_data %>%
+  filter(unit_number == 540) %>%
+  arrange(time_stamp)
   
-clf_data %>% filter(unit_number == 540) %>% arrange(time_stamp) %>% mutate(new_status = lead(status,40)) %>% filter(!is.na(new_status))
+clf_data %>% filter(unit_number == 540) %>%
+  arrange(time_stamp) %>%
+  mutate(new_status = lead(status,40)) %>% 
+  mutate(new_status = ifelse(is.na(new_status), 1, new_status)) %>% 
+  select(-c(status)) %>%
+  rename(status = new_status)
+```
 
 
-write_csv(updated_data, "../results/processed_data/predictive_maintenance_dataset_40days.csv")
-  
+```{r}
+write_csv(updated_data, "../results/processed_data/predictive_maintenance_dataset_processed.csv")
+```
+
+
+
+
+```{r}
+map_isna <- function(column) {
+ret_data <- updated_data %>% select(c(column,27))
+actual_name <- names(ret_data)[1]
+names(ret_data)[1] <- "column"
+ret_data <- ret_data %>% group_by(status) %>% summarise(count = sum(is.na(column)))
+ret_data["column"] <- actual_name
+return(ret_data)
+}
+
+1:(ncol(updated_data)-1) %>%
+  map_dfr(map_isna) %>%
+  ggplot() +
+  geom_col(aes(column, count, fill = as.factor(status))) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+
+
+```{r}
+updated_data[['operational_setting_2']] %>% density(, na.rm = TRUE) %>% plot()
+
+updated_data %>% ggplot() + geom_point(aes(sensor_measurement_1, sensor_measurement_2, color = status))
+```
+
+# Preprocessing for task 2
+
+```{r}
+reg_data <- read_csv("../data/forecasting_dataset.csv")
+
+reg_data <- reg_data %>%
+  mutate(date = mdy(date)) %>%
+  mutate(time_stamp = as.POSIXct(paste(date, time),
+                                 format="%Y-%m-%d %H:%M:%S",
+                                 tz="Asia/Calcutta"))
+
+reg_data <- reg_data %>% select(-c(date, time)) %>% select(c(15,1:14)) %>% arrange(time_stamp) %>% mutate(y = lead(y, 6))
+
+reg_data <- reg_data %>% filter(!is.na(y))
+
+write_csv(reg_data, "../results/processed_data/forecasting_processed.csv")
+
 ```
