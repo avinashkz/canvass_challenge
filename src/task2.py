@@ -34,9 +34,11 @@ def process_data(X, refit = False):
 
         print("==== Processing {} ====".format(col_name))
 
-        top_corr = np.argmax(np.abs(columns))
-        second_corr = pd.DataFrame(columns).sort_values(col_name).iloc[-2].name
-        third_corr = pd.DataFrame(columns).sort_values(col_name).iloc[-3].name
+        sorted_col = pd.DataFrame(columns).sort_values(col_name)
+
+        top_corr = sorted_col.iloc[-1].name
+        second_corr = sorted_col.iloc[-2].name
+        third_corr = sorted_col.iloc[-3].name
 
         features = [top_corr, second_corr, third_corr]
         
@@ -119,5 +121,17 @@ def process_data(X, refit = False):
         all_data = complete_data.copy()
 
     all_data = all_data.sort_index()
+    
+        #Binarizing variables
+    lb = LabelBinarizer()
+    for col in all_data:
+        target = all_data[col]
+        if(len(target.unique()) <= 7):
+            binary_data = lb.fit_transform(target)
+            unique_vals = all_data[col].unique()
+            unique_vals.sort()
+            col_names = [col + '_' +str(int(item)) for item in unique_vals if item is not np.nan]
+            all_data = pd.concat([all_data, pd.DataFrame(binary_data, columns= col_names)], axis = 1)
+            all_data.drop([col], axis = 1, inplace = True)
     
     return all_data

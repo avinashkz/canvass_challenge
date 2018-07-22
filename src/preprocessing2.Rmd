@@ -1,0 +1,36 @@
+---
+title: "Data Preprocessing for Predictive Maintenance Dataset"
+author: "Avinash"
+date: '2018-07-17'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Importing dependencies
+library(tidyverse)
+library(purrr)
+library(lubridate)
+```
+
+# Preprocessing for Task 2
+
+```{r}
+reg_data <- read_csv("../data/forecasting_dataset.csv")
+
+reg_data <- reg_data %>%
+  mutate(date = mdy(date)) %>%
+  mutate(time_stamp = as.POSIXct(paste(date, time),
+                                 format="%Y-%m-%d %H:%M:%S",
+                                 tz="Asia/Calcutta"))
+
+reg_data <- reg_data %>% select(-c(date, time)) %>% select(c(15,1:14)) %>% arrange(time_stamp) %>% mutate(y = lead(y, 6))
+
+reg_data <- reg_data %>% filter(!is.na(y))
+
+write_csv(reg_data, "../results/processed_data/forecasting_processed.csv")
+
+```
