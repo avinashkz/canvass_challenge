@@ -4,6 +4,7 @@ import pandas as pd
 
 # Data preprocessing
 from sklearn import preprocessing
+from sklearn.preprocessing import LabelBinarizer
 
 # Classification models
 from sklearn.ensemble import RandomForestClassifier

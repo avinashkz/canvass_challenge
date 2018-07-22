@@ -19,6 +19,8 @@ The code for task 1 can be found in [task1.ipynb](src/Task1.ipynb)
 
 The code to process data for setting up the target variable can be found in [preprocessing1.Rmd](src/preprocessing1.Rmd)
 
+**Sample usage [Task1-Sample.ipynb](src/Task1-Sample.ipynb)**
+
 # Design Decisions for Task 2
 
 1. Processed the target variable to predict 6 hours ahead.
@@ -43,3 +45,5 @@ The code for task 2 can be found in [task2.ipynb](src/Task2.ipynb)
 The code for NN using Keras -> [Task2_NN.ipynb](src/Task2_NN.ipynb)
 
 The code to process data for setting up the target variable can be found in [preprocessing2.Rmd](src/preprocessing2.Rmd)
+
+**Sample usage [Task2-Sample.ipynb](src/Task2-Sample.ipynb)**
