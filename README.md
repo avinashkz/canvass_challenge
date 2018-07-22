@@ -14,7 +14,7 @@
 6. Try different classification models & identify the best performing model using the validation set.
 7. Perform hyperparameter optimization to tune the best performing model using `RandomizeSearchCV`. The best model selected for task1 is Random Forest Classifier.
 8. Perform feature selection using the optimized model and sklearn pipeline.
-9. Since I was getting good accuracy and recall score; I did not spend time on neural networks for this task.
+9. Since I was getting good accuracy and recall score, I did not spend time on neural networks for this task.
 
 The code for task 1 can be found in [task1.ipynb](src/Task1.ipynb)
 
