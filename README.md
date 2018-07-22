@@ -1,32 +1,44 @@
 # Design Decisions for Task 1
 
-1. Encode the categorical variables using `map` as sklearn cannot handle categorical variables. (I have assumed that the differences between all the levels are the same.)
-2. Impute the missing categorical and continuous variables using sklearn `Imputer` function as sklearn cannot handle missing values.
+1. Processed the target variable to predict failure between 0 and 40 days.
+2. Preprocessed the data (features)
+    - Encode the categorical variables using `map` as sklearn cannot handle categorical variables. (I have assumed that the differences between all the levels are the same.)
+    - Impute the missing values using other features as there was a significant correlation between features. 
+    - Using `RandomForestRegressors` for continuous /discrete features.
+    - Using `RandomForestClassifier` for categorical features.
+    - Impute missing values using Mean(continuous /discrete)/Mode(categorical) if top correlated features are all missing.
+    - Split all the categorical features into binary variables.
 3. Use sklearn `train_test_split` to divide the data into train and test to ensure that the test data is isolated from the training data and to avoid optimization bias.
 4. Upsample the training data using the `imbalance-learn` package. Classification models returned around 30% recall without upsampling the data.
 5. Divide the upsampled data into train and validation using train test split to avoid overfitting.
 6. Try different classification models & identify the best performing model using the validation set.
 7. Perform hyperparameter optimization to tune the best performing model using `RandomizeSearchCV`. The best model selected for task1 is Random Forest Classifier.
 8. Perform feature selection using the optimized model and sklearn pipeline.
+9. Since I was getting good accuracy and recall score; I did not spend time on neural networks for this task.
 
 The code for task 1 can be found in [task1.ipynb](src/Task1.ipynb)
 
-The code for task 1 (attempt to predict 40 minutes ahead)can be found in [task1-40days.ipynb](src/Task1-40days.ipynb)
-
-The code to process data for predicting 40 minutes ahead can be found in [preprocessing.Rmd](src/preprocessing.Rmd)
-
-
+The code to process data for setting up the target variable can be found in [preprocessing1.Rmd](src/preprocessing1.Rmd)
 
 # Design Decisions for Task 2
 
-1. I assumed that the value of y given is the traffic 6 hours ahead.
+1. Processed the target variable to predict 6 hours ahead.
 2. Encoded the categorical variables as sklearn cannot handle them. (I have assumed that the differences between all the levels are the same.)
-3. Imputed the categorical and continuous variable as sklearn cannot handle missing values.
-    - Since there is a significant correlation between some of the features, I attempted to predict the categorical variables `label` as it would be more accurate than replacing with the most frequent value.
-    - Also, I tried to remove all the missing values. This gave better results than imputing the missing values.
-4. Develop and compare various sklearn regression models and identify the best model using the validation set.  The best model selected for task2 is GradientBoostingRegressor.
-5. Perform hyperparameter optimization using GridSearchCV
-6. Perform feature selection using the sklearn `pipeline` and the best performing model
+2. Preprocessed the data (features)
+    - Encode the categorical variables using `map` as sklearn cannot handle categorical variables. (I have assumed that the differences between all the levels are the same.)
+    - Impute the missing values using other features as there was a significant correlation between features. 
+    - Using `RandomForestRegressors` for continuous /discrete features.
+    - Using `RandomForestClassifier` for categorical features.
+    - Impute missing values using Mean(continuous /discrete)/Mode(categorical) if top correlated features are all missing.
+    - Split all the categorical features into binary variables.
+3. Develop and compare various sklearn regression models and identify the best model using the validation set.  The best model selected for task2 is `RandomForestRegressor`.
+5. Perform hyperparameter optimization using `GridSearchCV`
+6. Perform feature selection using the sklearn `pipeline` and the best performing non-deep learning model.
+7. Attempt to improve the performance of Random Forest model using Neural Networks.
+8. Tune hyperparameters for Keras models using `GridSearchCV` and `RandomizedSearchCV`.
+
 7. Save the model in pickle format.
 
 The code for task 2 can be found in [task2.ipynb](src/Task2.ipynb)
+
+The code to process data for setting up the target variable can be found in [preprocessing2.Rmd](src/preprocessing2.Rmd)
