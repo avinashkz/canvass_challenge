@@ -1,6 +1,7 @@
 # Design Decisions for Task 1
 
 1. Processed the target variable to predict failure between 0 and 40 days.
+
 2. Preprocessed the data (features)
     - Encode the categorical variables using `map` as sklearn cannot handle categorical variables. (I have assumed that the differences between all the levels are the same.)
     - Impute the missing values using other features as there was a significant correlation between features. 
@@ -24,7 +25,7 @@ The code to process data for setting up the target variable can be found in [pre
 # Design Decisions for Task 2
 
 1. Processed the target variable to predict 6 hours ahead.
-2. Encoded the categorical variables as sklearn cannot handle them. (I have assumed that the differences between all the levels are the same.)
+
 2. Preprocessed the data (features)
     - Encode the categorical variables using `map` as sklearn cannot handle categorical variables. (I have assumed that the differences between all the levels are the same.)
     - Impute the missing values using other features as there was a significant correlation between features. 
@@ -33,12 +34,11 @@ The code to process data for setting up the target variable can be found in [pre
     - Impute missing values using Mean(continuous /discrete)/Mode(categorical) if top correlated features are all missing.
     - Split all the categorical features into binary variables.
 3. Develop and compare various sklearn regression models and identify the best model using the validation set.  The best model selected for task2 is `RandomForestRegressor`.
-5. Perform hyperparameter optimization using `GridSearchCV`
-6. Perform feature selection using the sklearn `pipeline` and the best performing non-deep learning model.
-7. Attempt to improve the performance of Random Forest model using Neural Networks.
-8. Tune hyperparameters for Keras models using `GridSearchCV` and `RandomizedSearchCV`.
-
-7. Save the model in pickle format.
+4. Perform hyperparameter optimization using `GridSearchCV`
+5. Perform feature selection using the sklearn `pipeline` and the best performing non-deep learning model.
+6. Attempt to improve the performance of Random Forest model using Neural Networks.
+7. Tune hyperparameters for Keras models using `GridSearchCV` and `RandomizedSearchCV`.
+8. Save the model in pickle format.
 
 The code for task 2 can be found in [task2.ipynb](src/Task2.ipynb)
 
