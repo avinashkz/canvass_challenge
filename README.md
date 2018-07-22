@@ -7,7 +7,6 @@
     - Using `RandomForestRegressors` for continuous /discrete features.
     - Using `RandomForestClassifier` for categorical features.
     - Impute missing values using Mean(continuous /discrete)/Mode(categorical) if top correlated features are all missing.
-    - Split all the categorical features into binary variables.
 3. Use sklearn `train_test_split` to divide the data into train and test to ensure that the test data is isolated from the training data and to avoid optimization bias.
 4. Upsample the training data using the `imbalance-learn` package. Classification models returned around 30% recall without upsampling the data.
 5. Divide the upsampled data into train and validation using train test split to avoid overfitting.

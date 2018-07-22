@@ -126,16 +126,5 @@ def process_data(X, refit = False):
 
     all_data = all_data.sort_index()
     
-    #Binarizing variables
-    lb = LabelBinarizer()
-    for col in all_data:
-        target = all_data[col]
-        if(len(target.unique()) <= 7):
-            binary_data = lb.fit_transform(target)
-            unique_vals = all_data[col].unique()
-            unique_vals.sort()
-            col_names = [col + '_' +str(int(item)) for item in unique_vals if item is not np.nan]
-            all_data = pd.concat([all_data, pd.DataFrame(binary_data, columns= col_names)], axis = 1)
-            all_data.drop([col], axis = 1, inplace = True)
     
     return all_data

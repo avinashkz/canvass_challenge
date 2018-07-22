@@ -122,7 +122,7 @@ def process_data(X, refit = False):
 
     all_data = all_data.sort_index()
     
-        #Binarizing variables
+    #Binarizing variables
     lb = LabelBinarizer()
     for col in all_data:
         target = all_data[col]
