@@ -40,4 +40,6 @@ The code to process data for setting up the target variable can be found in [pre
 
 The code for task 2 can be found in [task2.ipynb](src/Task2.ipynb)
 
+The code for NN using Keras -> [Task2_NN.ipynb](src/Task2_NN.ipynb)
+
 The code to process data for setting up the target variable can be found in [preprocessing2.Rmd](src/preprocessing2.Rmd)
